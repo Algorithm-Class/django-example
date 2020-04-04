@@ -1,0 +1,30 @@
+from django.shortcuts import render
+
+# Create your views here.
+from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Student
+from .serializers import StudentSerializer
+
+# List all students or add new student into DB
+class StudentList(APIView):
+    # # List all students
+	def get(self,request):
+		stdnts=Student.objects.all()
+		# Convert all objects into serialized data i.e jSON, many=True; many objects
+		serializer=StudentSerializer(stdnts,many=True)
+		# Return serialized data
+		return Response(serializer.data)
+       
+	#add new student into DB
+	def post(self,request):
+		data=request.data
+		serializer=StudentSerializer(data=data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data,status=200)
+		return Response(serializer.erros,status=400)
+
+    

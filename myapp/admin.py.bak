@@ -1,0 +1,10 @@
+from django.contrib import admin
+
+# Register your models here.
+from .models import Dreamreal
+from .models import Student
+
+
+admin.site.register(Dreamreal)
+
+admin.site.register(Student)
